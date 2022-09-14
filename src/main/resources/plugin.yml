@@ -1,0 +1,5 @@
+name: PerfectStone
+version: '${version}'
+main: me.rennvo.perfectstone.PerfectStonePlugin
+authors: [ renNvo ]
+website: github.com/renNvo
