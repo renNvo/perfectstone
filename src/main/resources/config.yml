@@ -1,0 +1,21 @@
+title: "&9Drop"
+drops:
+  diamond:
+    type: "normal"
+    name: "&4Diamond"
+    material: "DIAMOND"
+    material_type: 0
+    chance: 100.0
+    exp: 5.0
+    xp: 10
+  specialdiamond:
+    type: "custom"
+    name: "&cSpecial diamond"
+    material: "DIAMOND"
+    chance: 50.0
+    exp: 50.0
+    xp: 100
+    lore:
+      - "&8&m--------------------"
+      - "&eThis is special item."
+      - "&8&m--------------------"

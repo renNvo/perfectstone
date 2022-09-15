@@ -1,13 +1,18 @@
 package me.rennvo.perfectstone.model.drop;
 
 import org.bukkit.Material;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
+
+import java.util.List;
 
 public interface IDropItem {
 
+    public String getName();
+
     public Material getMaterial();
 
-    public String getName();
+    public short getType();
 
     public double getChance();
 
@@ -15,6 +20,8 @@ public interface IDropItem {
 
     public int getXp(); // minecraft exp
 
-    public ItemStack build();
+    public List<String> getLore();
+
+    public ItemStack build(int levelOfFortune);
 
 }

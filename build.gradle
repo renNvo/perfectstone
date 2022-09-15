@@ -45,3 +45,6 @@ processResources {
         expand props
     }
 }
+jar {
+    destinationDirectory.set(file("C:/Users/rennv/Desktop/1.12.2/plugins/"))
+}
