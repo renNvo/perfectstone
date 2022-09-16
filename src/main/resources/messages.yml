@@ -1,2 +1,8 @@
 dropMessage: "&7You dropped {AMOUNT}&8x&7{NAME}"
 levelUp: "&aLevel up! Your current level is {LEVEL} ({EXP}/{NEED})\nFor next level you need {LEFT} exp."
+levelInfo:
+  - "&8&m-----------------------"
+  - "&aYour level is {LEVEL}"
+  - "&aExperience {EXP}/{NEED}"
+  - "&aFor next level you need {LEFT} exp"
+  - - "&8&m-----------------------"

@@ -12,6 +12,7 @@ public enum Messages {
 
     public String DROP_MESSAGE;
     public String LEVEL_UP;
+    public String LEVEL_INFO;
 
     public void load(Plugin plugin) {
         File file = new File(plugin.getDataFolder(), "messages.yml");
@@ -24,6 +25,7 @@ public enum Messages {
 
         DROP_MESSAGE = ChatUtilities.colored(yaml.getString("dropMessage"));
         LEVEL_UP = ChatUtilities.colored(yaml.getString("levelUp"));
+        LEVEL_INFO = ChatUtilities.buildMessageFromList(yaml.getStringList("levelInfo"));
     }
 
 }

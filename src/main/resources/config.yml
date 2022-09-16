@@ -8,6 +8,7 @@ drops:
     chance: 100.0
     exp: 5.0
     xp: 10
+    height: "0-255"
   specialdiamond:
     type: "custom"
     name: "&cSpecial diamond"
@@ -15,6 +16,7 @@ drops:
     chance: 50.0
     exp: 50.0
     xp: 100
+    height: "0-255"
     lore:
       - "&8&m--------------------"
       - "&eThis is special item."

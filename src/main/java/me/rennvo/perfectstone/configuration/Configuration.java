@@ -1,15 +1,19 @@
 package me.rennvo.perfectstone.configuration;
 
-import com.google.common.collect.Lists;
+import com.google.gson.internal.Streams;
 import me.rennvo.perfectstone.model.drop.CustomDropItem;
 import me.rennvo.perfectstone.model.drop.DropItemImpl;
+import me.rennvo.perfectstone.model.drop.common.Height;
 import me.rennvo.perfectstone.service.DropManager;
 import me.rennvo.perfectstone.utilities.ChatUtilities;
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.math.NumberUtils;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
 
 import java.io.File;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -33,6 +37,7 @@ public enum Configuration {
         TITLE = ChatUtilities.colored(yaml.getString("title"));
 
         yaml.getConfigurationSection("drops").getKeys(false).forEach(item -> {
+
             String   name     = ChatUtilities.colored(yaml.getString("drops." + item + ".name"));
             Material material = Material.getMaterial(yaml.getString("drops." + item + ".material").toUpperCase());
             short     type     = (short) yaml.getInt("drops." + item + ".material_type");
@@ -40,8 +45,11 @@ public enum Configuration {
             double   exp      = yaml.getDouble("drops." + item + ".exp");
             int      xp       = yaml.getInt("drops." + item + ".xp");
 
+            String[] hString = StringUtils.split(yaml.getString("drops." + item + ".height"), "-");
+            Height height = new Height(Integer.parseInt(hString[0]), Integer.parseInt(hString[1]));
+
             if (yaml.getString("drops." + item + ".type").equalsIgnoreCase("normal")) {
-                dropManager.getDropItems().add(new DropItemImpl(name, material, type, chance, exp, xp));
+                dropManager.getDropItems().add(new DropItemImpl(name, material, type, chance, exp, xp, height));
             } else {
 
                 List<String> lore = yaml.getStringList("drops." + item + ".lore");
@@ -53,7 +61,7 @@ public enum Configuration {
                             .collect(Collectors.toList());
                 }
 
-                dropManager.getDropItems().add(new CustomDropItem(name, material, type, chance, exp, xp, lore));
+                dropManager.getDropItems().add(new CustomDropItem(name, material, type, chance, exp, xp, height, lore));
             }
         });
 

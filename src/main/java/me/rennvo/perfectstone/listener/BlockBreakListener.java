@@ -44,6 +44,8 @@ public class BlockBreakListener implements Listener {
 
         for (IDropItem dropItem : this.dropManager.getDropItems()) {
 
+            if(!dropItem.getHeight().isValid(block.getY())) continue;
+
             if(dropItem.getChance() < MathUtilities.random()) {
                 continue;
             }

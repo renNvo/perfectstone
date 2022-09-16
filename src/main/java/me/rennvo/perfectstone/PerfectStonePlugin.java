@@ -1,5 +1,7 @@
 package me.rennvo.perfectstone;
 
+import me.rennvo.perfectstone.commands.impl.PerfectStoneCommand;
+import me.rennvo.perfectstone.commands.impl.PerfectStoneLevelCommand;
 import me.rennvo.perfectstone.configuration.Configuration;
 import me.rennvo.perfectstone.configuration.Messages;
 import me.rennvo.perfectstone.listener.BlockBreakListener;
@@ -23,7 +25,9 @@ public final class PerfectStonePlugin extends JavaPlugin {
         Messages.INSTANCE.load(this);
 
         Bukkit.getPluginManager().registerEvents(new BlockBreakListener(userManager, dropManager), this);
+
         this.getCommand("drop").setExecutor(new PerfectStoneCommand(this, dropManager));
+        this.getCommand("level").setExecutor(new PerfectStoneLevelCommand(userManager));
 
         Bukkit.getOnlinePlayers().forEach(player -> userManager.getUserMap().put(player.getUniqueId(), new UserImpl(player.getUniqueId(), 1, 0, 100)));
     }

@@ -1,5 +1,6 @@
 package me.rennvo.perfectstone.model.drop;
 
+import me.rennvo.perfectstone.model.drop.common.Height;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
@@ -13,14 +14,21 @@ public class DropItemImpl implements IDropItem {
     private final double   chance;
     private final double   exp;
     private final int      xp;
+    private final Height   height;
 
-    public DropItemImpl(String name, Material material, short type, double chance, double exp, int xp) {
+    public DropItemImpl(String name, Material material, short type, double chance, double exp, int xp, Height height) {
         this.name     = name;
         this.material = material;
         this.type     = type;
         this.chance   = chance;
         this.exp      = exp;
         this.xp       = xp;
+        this.height   = height;
+    }
+
+    @Override
+    public Height getHeight() {
+        return height;
     }
 
     @Override

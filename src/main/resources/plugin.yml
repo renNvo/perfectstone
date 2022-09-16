@@ -8,3 +8,5 @@ commands:
     description: command for stone state
     aliases:
       - stone
+  level:
+    description: command for level info
