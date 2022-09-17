@@ -6,6 +6,7 @@ import me.rennvo.perfectstone.configuration.Configuration;
 import me.rennvo.perfectstone.configuration.Messages;
 import me.rennvo.perfectstone.listener.BlockBreakListener;
 import me.rennvo.perfectstone.model.user.UserImpl;
+import me.rennvo.perfectstone.service.DatabaseManager;
 import me.rennvo.perfectstone.service.DropManager;
 import me.rennvo.perfectstone.service.UserManager;
 import org.bukkit.Bukkit;
@@ -15,11 +16,13 @@ public final class PerfectStonePlugin extends JavaPlugin {
 
     private UserManager userManager;
     private DropManager dropManager;
+    private DatabaseManager databaseManager;
 
     @Override
     public void onEnable() {
         this.userManager = new UserManager();
         this.dropManager = new DropManager();
+        this.databaseManager = new DatabaseManager(this);
 
         Configuration.INSTANCE.load(this, this.dropManager);
         Messages.INSTANCE.load(this);
