@@ -40,7 +40,11 @@ public class BlockBreakListener implements Listener {
             return;
         }
 
-        List<IDropItem> droppedItems = null;
+        int exp = 0;
+
+        int fortune = 0;
+        ItemStack itemInMainHand = player.getInventory().getItemInMainHand();
+        if(itemInMainHand != null) fortune = itemInMainHand.getEnchantmentLevel(Enchantment.LOOT_BONUS_BLOCKS);
 
         for (IDropItem dropItem : this.dropManager.getDropItems()) {
 
@@ -50,54 +54,40 @@ public class BlockBreakListener implements Listener {
                 continue;
             }
 
-            if(droppedItems == null) {
-                droppedItems = Lists.newArrayList();
-            }
+            exp += dropItem.getExp();
+            player.giveExp(dropItem.getXp());
 
-            droppedItems.add(dropItem);
-        }
+            final ItemStack droppedStack = dropItem.build(fortune);
 
-        if(droppedItems == null) {
-            return;
-        }
-
-        IUser user = this.userManager.get(player.getUniqueId());
-
-        int fortune = 0;
-        ItemStack itemStack = player.getInventory().getItemInMainHand();
-
-        if(itemStack != null) {
-            fortune = itemStack.getEnchantmentLevel(Enchantment.LOOT_BONUS_BLOCKS);
-        }
-
-        for (IDropItem droppedItem : droppedItems) {
-            user.addExp(droppedItem.getExp());
-            player.giveExp(droppedItem.getXp());
-            player.getInventory().addItem(droppedItem.build(fortune));
+            player.getInventory().addItem(droppedStack);
 
             String message = Messages.INSTANCE.DROP_MESSAGE;
 
-            message = StringUtils.replace(message, "{NAME}", droppedItem.getName());
-            message = StringUtils.replace(message, "{AMOUNT}", "1"); //TODO fortune message
+            message = StringUtils.replace(message, "{NAME}", dropItem.getName());
+            message = StringUtils.replace(message, "{AMOUNT}", Integer.toString(droppedStack.getAmount()));
 
             player.sendMessage(message);
         }
 
-        if(user.getExp() >= user.getNeed()) {
-            do {
-                user.addLevel(1);
-                user.setExp(user.getExp() - user.getNeed());
-                user.setNeed(user.getNeed() + 100); // TODO conditions
+        if(exp != 0) {
+            IUser user = this.userManager.get(player.getUniqueId());
 
-                String message = Messages.INSTANCE.LEVEL_UP;
+            if (user.getExp() >= user.getNeed()) {
+                do {
+                    user.addLevel(1);
+                    user.setExp(user.getExp() - user.getNeed());
+                    user.setNeed(user.getNeed() + 100); // TODO conditions
 
-                message = StringUtils.replace(message, "{LEVEL}", Integer.toString(user.getLevel()));
-                message = StringUtils.replace(message, "{EXP}", Double.toString(user.getExp()));
-                message = StringUtils.replace(message, "{NEED}", Double.toString(user.getNeed()));
-                message = StringUtils.replace(message, "{LEFT}", Double.toString(user.getNeed() - user.getExp()));
+                    String message = Messages.INSTANCE.LEVEL_UP;
 
-                player.sendMessage(message);
-            } while(user.getExp() >= user.getNeed());
+                    message = StringUtils.replace(message, "{LEVEL}", Integer.toString(user.getLevel()));
+                    message = StringUtils.replace(message, "{EXP}", Double.toString(user.getExp()));
+                    message = StringUtils.replace(message, "{NEED}", Double.toString(user.getNeed()));
+                    message = StringUtils.replace(message, "{LEFT}", Double.toString(user.getNeed() - user.getExp()));
+
+                    player.sendMessage(message);
+                } while (user.getExp() >= user.getNeed());
+            }
         }
     }
 }
